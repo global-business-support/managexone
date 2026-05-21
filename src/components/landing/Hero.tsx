@@ -9,17 +9,17 @@ export function Hero() {
       <div className="container relative mx-auto grid gap-12 px-4 py-20 md:grid-cols-2 md:py-28 lg:py-32">
         <div className="flex flex-col justify-center">
           <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-white/5 px-4 py-1.5 text-xs font-medium text-gold backdrop-blur">
-            <Zap className="h-3.5 w-3.5" /> All-In-One Business Suite — 14 Day Free Trial
+            <Zap className="h-3.5 w-3.5" /> All-In-One Business Suite — 1 Day Free Trial
           </div>
           <h1 className="font-display text-5xl font-bold leading-[1.05] md:text-6xl lg:text-7xl">
             Run Your Entire <span className="text-gradient-gold">Business</span> From One Smart Dashboard
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/75">
-            ManageXOne ek hi platform me HRIS, Accounting, GST Billing, EPFO &amp; ESIC compliance, P&amp;L, Balance Sheet aur multi-company CRM deta hai — Hotels, Gyms, Hospitals aur har business ke liye.
+            ManageXOne brings HRIS, Accounting, GST Billing, EPFO &amp; ESIC compliance, P&amp;L, Balance Sheet and multi-company CRM into a single platform — built for Hotels, Gyms, Hospitals and every growing business.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="bg-gradient-gold text-gold-foreground shadow-gold hover:opacity-90">
-              <Link to="/signup">Start 14-Day Free Trial <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Link to="/signup">Start 1-Day Free Trial <ArrowRight className="ml-2 h-4 w-4" /></Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white/30 bg-white/5 text-white hover:bg-white/10">
               <a href="#modules">Explore Modules</a>

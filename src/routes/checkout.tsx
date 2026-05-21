@@ -18,10 +18,11 @@ export const Route = createFileRoute("/checkout")({
   component: CheckoutPage,
 });
 
-const PLANS = {
+type PlanDef = { name: string; monthly: number; features: string[] };
+const PLANS: Record<"starter" | "professional", PlanDef> = {
   starter: { name: "Starter", monthly: 2999, features: ["1 Company", "Up to 10 Employees", "GST Billing", "Basic Accounting"] },
   professional: { name: "Professional", monthly: 5999, features: ["5 Companies", "Up to 100 Employees", "EPFO + ESIC + TDS", "P&L + Balance Sheet"] },
-} as const;
+};
 
 const inr = (n: number) => `₹ ${n.toLocaleString("en-IN")}`;
 

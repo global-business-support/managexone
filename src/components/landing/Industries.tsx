@@ -16,7 +16,7 @@ export function Industries() {
         <div className="mx-auto max-w-2xl text-center">
           <div className="text-xs uppercase tracking-widest text-gold">Built For Every Industry</div>
           <h2 className="mt-3 font-display text-4xl font-bold md:text-5xl">One Platform. Every Business.</h2>
-          <p className="mt-4 text-white/70">Hotels, gyms, hospitals, factories, retail — sab ke liye industry-specific workflows.</p>
+          <p className="mt-4 text-white/70">Hotels, gyms, hospitals, factories, retail — industry-specific workflows for every business.</p>
         </div>
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {industries.map(({ icon: Icon, name, points }) => (

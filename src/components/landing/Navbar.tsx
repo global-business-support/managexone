@@ -27,7 +27,7 @@ export function Navbar() {
             <Link to="/login">Login</Link>
           </Button>
           <Button asChild size="sm" className="bg-gradient-gold text-gold-foreground shadow-gold hover:opacity-90">
-            <Link to="/signup">Start Free Trial</Link>
+            <Link to="/signup">Start 1-Day Trial</Link>
           </Button>
         </div>
       </div>

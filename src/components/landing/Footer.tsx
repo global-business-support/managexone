@@ -34,7 +34,7 @@ export function Footer() {
           <div className="mb-3 text-xs font-semibold uppercase tracking-widest text-gold">Contact</div>
           <ul className="space-y-2 text-sm">
             <li>support@managexone.com</li>
-            <li>+91 90000 00000</li>
+            <li>+91 70007 38158</li>
           </ul>
         </div>
       </div>
