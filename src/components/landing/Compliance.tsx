@@ -1,10 +1,10 @@
 import { FileCheck2, Database, FileSpreadsheet, Receipt } from "lucide-react";
 
 const items = [
-  { icon: FileCheck2, title: "EPFO File Ready", desc: "Salary basis pe ECR file auto-generate. Direct EPFO portal upload — no manual entry." },
-  { icon: FileSpreadsheet, title: "ESIC Excel Auto", desc: "Monthly ESIC contribution Excel salary basis pe note ke saath ready." },
-  { icon: Receipt, title: "GST Direct Fill", desc: "Party ka GST amount aate hi direct invoice me auto-fill — saved as compliant entry." },
-  { icon: Database, title: "TDS & Documentation", desc: "Section-wise TDS, challan tracking & complete audit-ready documentation vault." },
+  { icon: FileCheck2, title: "EPFO File Ready", desc: "Salary-based ECR file auto-generated. Upload directly to the EPFO portal — no manual entry." },
+  { icon: FileSpreadsheet, title: "ESIC Excel Auto", desc: "Monthly ESIC contribution Excel generated automatically on a salary basis with notes." },
+  { icon: Receipt, title: "GST Direct Fill", desc: "Party GST amount auto-fills into invoices the moment it's entered — saved as a compliant entry." },
+  { icon: Database, title: "TDS & Documentation", desc: "Section-wise TDS, challan tracking and a complete audit-ready documentation vault." },
 ];
 
 export function Compliance() {
@@ -19,7 +19,7 @@ export function Compliance() {
               <span className="text-gradient-gold">All Automated.</span>
             </h2>
             <p className="mt-5 text-lg text-muted-foreground">
-              Wo sab kaam jo ek qualified accountant manually karta hai — ManageXOne aapke liye automate kar deta hai. Files generate, returns ready, compliance ek click pe.
+              Every task a qualified accountant performs manually — ManageXOne automates for you. Files generated, returns ready, compliance in one click.
             </p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">

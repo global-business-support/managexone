@@ -42,7 +42,7 @@ function SignupPage() {
       <div className="flex items-center justify-center p-8">
         <form onSubmit={onSubmit} className="w-full max-w-md space-y-5">
           <div>
-            <h1 className="font-display text-3xl font-bold text-navy-deep">Start Your 14-Day Free Trial</h1>
+            <h1 className="font-display text-3xl font-bold text-navy-deep">Start Your 1-Day Free Trial</h1>
             <p className="mt-1 text-sm text-muted-foreground">No credit card required.</p>
           </div>
           <div className="space-y-2">
@@ -79,7 +79,7 @@ function SignupPage() {
         </Link>
         <div>
           <h2 className="font-display text-4xl font-bold leading-tight">
-            Trial me <span className="text-gradient-gold">Sab Kuch</span> milega
+            Everything included in your <span className="text-gradient-gold">trial</span>
           </h2>
           <ul className="mt-6 space-y-3 text-white/80">
             {[

@@ -12,7 +12,7 @@ export function CTA() {
             Ready to Run Smarter?
           </h2>
           <p className="mt-5 text-lg text-white/75">
-            14 din free trial — full features, koi credit card nahi. Aaj hi start karein aur dekho kaise ManageXOne aapka pura business chalata hai.
+            1-day free trial — full features, no credit card required. Start today and see how ManageXOne runs your entire business.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild size="lg" className="bg-gradient-gold text-gold-foreground shadow-gold hover:opacity-90">
