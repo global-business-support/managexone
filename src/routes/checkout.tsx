@@ -27,8 +27,8 @@ const PLANS: Record<"starter" | "professional", PlanDef> = {
 const inr = (n: number) => `₹ ${n.toLocaleString("en-IN")}`;
 
 function CheckoutPage() {
-  const { plan, billing } = Route.useSearch();
-  const p = PLANS[plan];
+  const { plan, billing } = Route.useSearch() as { plan: "starter" | "professional"; billing: "monthly" | "yearly" };
+  const p: PlanDef = PLANS[plan];
   const baseTotal = billing === "yearly" ? Math.round(p.monthly * 12 * 0.8) : p.monthly;
   const gst = Math.round(baseTotal * 0.18);
   const total = baseTotal + gst;
