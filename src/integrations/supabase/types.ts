@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      parties: {
+        Row: {
+          billing_address: string | null
+          created_at: string
+          email: string | null
+          gstin: string | null
+          id: string
+          name: string
+          owner_id: string
+          pan: string | null
+          phone: string | null
+          place_of_supply: string | null
+          state: string | null
+          state_code: string | null
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          billing_address?: string | null
+          created_at?: string
+          email?: string | null
+          gstin?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          pan?: string | null
+          phone?: string | null
+          place_of_supply?: string | null
+          state?: string | null
+          state_code?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          billing_address?: string | null
+          created_at?: string
+          email?: string | null
+          gstin?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          pan?: string | null
+          phone?: string | null
+          place_of_supply?: string | null
+          state?: string | null
+          state_code?: string | null
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           approved: boolean

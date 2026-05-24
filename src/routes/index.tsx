@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
+import { QuickAccess } from "@/components/landing/QuickAccess";
 import { Modules } from "@/components/landing/Modules";
 import { Compliance } from "@/components/landing/Compliance";
 import { Industries } from "@/components/landing/Industries";
@@ -26,6 +27,7 @@ function LandingPage() {
       <Navbar />
       <main>
         <Hero />
+        <QuickAccess />
         <Modules />
         <Compliance />
         <Industries />
