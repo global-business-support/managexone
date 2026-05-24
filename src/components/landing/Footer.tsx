@@ -1,4 +1,5 @@
-import { Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { ShieldCheck, Sparkles } from "lucide-react";
 
 export function Footer() {
   return (
@@ -38,8 +39,17 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10 py-5 text-center text-xs text-white/50">
-        © {new Date().getFullYear()} ManageXOne. All rights reserved.
+      <div className="border-t border-white/10">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-white/50 sm:flex-row">
+          <div>© {new Date().getFullYear()} ManageXOne. All rights reserved.</div>
+          <Link
+            to="/admin-login"
+            className="inline-flex items-center gap-2 rounded-md border border-gold/40 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold transition-colors hover:bg-gold/20"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Admin Sign In
+          </Link>
+        </div>
       </div>
     </footer>
   );
