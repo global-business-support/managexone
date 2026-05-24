@@ -5,8 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { UserCog, CheckCircle2, XCircle, ShieldCheck, RefreshCw } from "lucide-react";
+import { UserCog, CheckCircle2, XCircle, ShieldCheck, RefreshCw, Clock, Mail, Phone, Building2 } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard/admin")({
   component: AdminPage,
