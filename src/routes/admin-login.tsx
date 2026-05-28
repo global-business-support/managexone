@@ -1,14 +1,12 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ShieldCheck, Sparkles } from "lucide-react";
-
-const ADMIN_EMAIL = "jeet0731@gmail.com";
-const ADMIN_PASSWORD = "welcome4U@";
+import { MailCheck, ShieldCheck, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/admin-login")({
   head: () => ({ meta: [{ title: "Admin Sign In — ManageXOne" }] }),
@@ -16,49 +14,100 @@ export const Route = createFileRoute("/admin-login")({
 });
 
 function AdminLoginPage() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState(ADMIN_EMAIL);
-  const [password, setPassword] = useState(ADMIN_PASSWORD);
+  const [mode, setMode] = useState<"login" | "request">("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    let { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (mode === "request") {
+      let authUserId: string | undefined;
 
-    if (error && email.toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      const { error: signUpErr } = await supabase.auth.signUp({
+      const signUpRes = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/admin`,
-          data: { full_name: "Administrator", company_name: "ManageXOne" },
+          emailRedirectTo: `${window.location.origin}/admin-login`,
+          data: {
+            full_name: fullName,
+            company_name: companyName,
+            phone,
+          },
         },
       });
-      if (!signUpErr) {
-        const retry = await supabase.auth.signInWithPassword({ email, password });
-        error = retry.error;
-        signInData = retry.data;
-      } else if (!/already/i.test(signUpErr.message)) {
-        error = signUpErr;
+
+      if (signUpRes.error && !/already registered|already been registered/i.test(signUpRes.error.message)) {
+        setLoading(false);
+        return toast.error(signUpRes.error.message);
       }
+
+      authUserId = signUpRes.data.user?.id;
+
+      if (!authUserId) {
+        const signInRes = await supabase.auth.signInWithPassword({ email, password });
+        if (signInRes.error) {
+          setLoading(false);
+          return toast.error(signInRes.error.message);
+        }
+        authUserId = signInRes.data.user?.id;
+      }
+
+      const { error: requestError } = await supabase.from("admin_requests").insert({
+        user_id: authUserId!,
+        requester_email: email,
+        full_name: fullName,
+        company_name: companyName,
+        phone,
+        reason,
+      });
+
+      setLoading(false);
+
+      if (requestError && !/duplicate key|unique/i.test(requestError.message)) {
+        return toast.error(requestError.message);
+      }
+
+      const subject = encodeURIComponent(`Admin access request - ${fullName || email}`);
+      const body = encodeURIComponent(
+        `New admin access request received.%0D%0A%0D%0AName: ${fullName || "-"}%0D%0AEmail: ${email}%0D%0ACompany: ${companyName || "-"}%0D%0APhone: ${phone || "-"}%0D%0AReason: ${reason || "-"}%0D%0A%0D%0APlease review this request inside ManageXOne admin panel.`
+      );
+
+      window.location.href = `mailto:jeet0731@gmail.com?subject=${subject}&body=${body}`;
+      toast.success("Admin request submit ho gayi. Approval ke baad hi admin access milega.");
+      return;
     }
 
+    const { data: signInData, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) {
       setLoading(false);
       return toast.error(error.message);
     }
 
-    // Verify admin role before navigating — prevents racing with profile load
     const uid = signInData?.user?.id;
-    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", uid!);
+    const [{ data: roles }, { data: request }] = await Promise.all([
+      supabase.from("user_roles").select("role").eq("user_id", uid!),
+      supabase.from("admin_requests").select("status").eq("user_id", uid!).maybeSingle(),
+    ]);
+
     const isAdmin = (roles ?? []).some((r: { role: string }) => r.role === "admin");
     setLoading(false);
 
     if (!isAdmin) {
       await supabase.auth.signOut();
-      return toast.error("Yeh account admin nahi hai.");
+      if (request?.status === "pending") {
+        return toast.error("Aapki admin request pending hai. Approval ke baad hi access milega.");
+      }
+      if (request?.status === "rejected") {
+        return toast.error("Aapki admin request reject ho chuki hai.");
+      }
+      return toast.error("Admin access ke liye pehle registration request bhejein.");
     }
 
     toast.success("Admin session active");
@@ -82,7 +131,7 @@ function AdminLoginPage() {
             Admin <span className="text-gradient-gold">Control Center</span>
           </h2>
           <p className="mt-4 max-w-md text-white/70">
-            Approve members, manage subscriptions, and configure system-wide settings for every connected company.
+            Admin aur user access ab alag hai. Pehle admin request submit hogi, phir jeet0731@gmail.com confirmation ke baad hi admin panel access milega.
           </p>
         </div>
         <div className="text-xs text-white/50">© {new Date().getFullYear()} ManageXOne</div>
@@ -96,6 +145,38 @@ function AdminLoginPage() {
             <h1 className="mt-3 font-display text-3xl font-bold text-navy-deep">Administrator Sign In</h1>
             <p className="mt-1 text-sm text-muted-foreground">Authorized personnel only.</p>
           </div>
+          <div className="grid grid-cols-2 gap-2 rounded-md border bg-muted/30 p-1">
+            <button
+              type="button"
+              onClick={() => setMode("login")}
+              className={`rounded px-3 py-2 text-sm font-medium ${mode === "login" ? "bg-navy-deep text-white" : "text-muted-foreground"}`}
+            >
+              Admin Login
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("request")}
+              className={`rounded px-3 py-2 text-sm font-medium ${mode === "request" ? "bg-navy-deep text-white" : "text-muted-foreground"}`}
+            >
+              Admin Registration
+            </button>
+          </div>
+          {mode === "request" && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input id="fullName" required value={fullName} onChange={(e) => setFullName(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="companyName">Company Name</Label>
+                <Input id="companyName" required value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="phone">Phone</Label>
+                <Input id="phone" required value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+            </>
+          )}
           <div className="space-y-2">
             <Label htmlFor="email">Admin Email</Label>
             <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -104,9 +185,23 @@ function AdminLoginPage() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
+          {mode === "request" && (
+            <div className="space-y-2">
+              <Label htmlFor="reason">Approval Reason</Label>
+              <Textarea id="reason" required rows={4} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Admin access kis kaam ke liye chahiye?" />
+            </div>
+          )}
           <Button type="submit" disabled={loading} className="w-full bg-navy-deep text-white hover:bg-navy-deep/90">
-            {loading ? "Verifying..." : "Sign In as Admin"}
+            {loading ? "Processing..." : mode === "login" ? "Sign In as Admin" : "Request Admin Access"}
           </Button>
+          {mode === "request" && (
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              <div className="flex items-start gap-2">
+                <MailCheck className="mt-0.5 h-4 w-4 shrink-0" />
+                <p>Request submit hone ke baad jeet0731@gmail.com ke liye confirmation mail draft open hoga. Approval ke baad hi aap admin panel me login kar payenge.</p>
+              </div>
+            </div>
+          )}
           <p className="text-center text-sm text-muted-foreground">
             Not an admin?{" "}
             <Link to="/login" className="font-medium text-navy-deep underline">User Login</Link>
