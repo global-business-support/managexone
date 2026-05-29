@@ -293,7 +293,6 @@ export type Database = {
           isSetofReturn: false
         }
       }
-      self_register_admin: { Args: never; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "member" | "trial"
