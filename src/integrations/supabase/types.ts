@@ -62,6 +62,345 @@ export type Database = {
         }
         Relationships: []
       }
+      attendance: {
+        Row: {
+          att_date: string
+          created_at: string
+          employee_id: string
+          id: string
+          notes: string | null
+          owner_id: string
+          status: string
+        }
+        Insert: {
+          att_date?: string
+          created_at?: string
+          employee_id: string
+          id?: string
+          notes?: string | null
+          owner_id: string
+          status: string
+        }
+        Update: {
+          att_date?: string
+          created_at?: string
+          employee_id?: string
+          id?: string
+          notes?: string | null
+          owner_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chart_of_accounts: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          name: string
+          opening_balance: number
+          owner_id: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          name: string
+          opening_balance?: number
+          owner_id: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          name?: string
+          opening_balance?: number
+          owner_id?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      employees: {
+        Row: {
+          aadhar: string | null
+          allowances: number
+          bank_account: string | null
+          bank_name: string | null
+          basic_salary: number
+          created_at: string
+          date_of_joining: string
+          department: string | null
+          designation: string | null
+          email: string | null
+          employee_code: string
+          esic_number: string | null
+          full_name: string
+          hra: number
+          id: string
+          ifsc: string | null
+          owner_id: string
+          pan: string | null
+          pf_number: string | null
+          phone: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          aadhar?: string | null
+          allowances?: number
+          bank_account?: string | null
+          bank_name?: string | null
+          basic_salary?: number
+          created_at?: string
+          date_of_joining?: string
+          department?: string | null
+          designation?: string | null
+          email?: string | null
+          employee_code: string
+          esic_number?: string | null
+          full_name: string
+          hra?: number
+          id?: string
+          ifsc?: string | null
+          owner_id: string
+          pan?: string | null
+          pf_number?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          aadhar?: string | null
+          allowances?: number
+          bank_account?: string | null
+          bank_name?: string | null
+          basic_salary?: number
+          created_at?: string
+          date_of_joining?: string
+          department?: string | null
+          designation?: string | null
+          email?: string | null
+          employee_code?: string
+          esic_number?: string | null
+          full_name?: string
+          hra?: number
+          id?: string
+          ifsc?: string | null
+          owner_id?: string
+          pan?: string | null
+          pf_number?: string | null
+          phone?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      invoice_items: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string
+          hsn_sac: string | null
+          id: string
+          invoice_id: string
+          owner_id: string
+          qty: number
+          rate: number
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description: string
+          hsn_sac?: string | null
+          id?: string
+          invoice_id: string
+          owner_id: string
+          qty?: number
+          rate?: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string
+          hsn_sac?: string | null
+          id?: string
+          invoice_id?: string
+          owner_id?: string
+          qty?: number
+          rate?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          cgst: number
+          created_at: string
+          due_date: string | null
+          gst_rate: number
+          id: string
+          igst: number
+          invoice_date: string
+          invoice_no: string
+          is_interstate: boolean
+          notes: string | null
+          owner_id: string
+          party_id: string | null
+          party_snapshot: Json | null
+          sgst: number
+          status: string
+          subtotal: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          cgst?: number
+          created_at?: string
+          due_date?: string | null
+          gst_rate?: number
+          id?: string
+          igst?: number
+          invoice_date?: string
+          invoice_no: string
+          is_interstate?: boolean
+          notes?: string | null
+          owner_id: string
+          party_id?: string | null
+          party_snapshot?: Json | null
+          sgst?: number
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          cgst?: number
+          created_at?: string
+          due_date?: string | null
+          gst_rate?: number
+          id?: string
+          igst?: number
+          invoice_date?: string
+          invoice_no?: string
+          is_interstate?: boolean
+          notes?: string | null
+          owner_id?: string
+          party_id?: string | null
+          party_snapshot?: Json | null
+          sgst?: number
+          status?: string
+          subtotal?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_party_id_fkey"
+            columns: ["party_id"]
+            isOneToOne: false
+            referencedRelation: "parties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      journal_entries: {
+        Row: {
+          created_at: string
+          entry_date: string
+          entry_no: string
+          id: string
+          narration: string | null
+          owner_id: string
+          total_credit: number
+          total_debit: number
+        }
+        Insert: {
+          created_at?: string
+          entry_date?: string
+          entry_no: string
+          id?: string
+          narration?: string | null
+          owner_id: string
+          total_credit?: number
+          total_debit?: number
+        }
+        Update: {
+          created_at?: string
+          entry_date?: string
+          entry_no?: string
+          id?: string
+          narration?: string | null
+          owner_id?: string
+          total_credit?: number
+          total_debit?: number
+        }
+        Relationships: []
+      }
+      journal_lines: {
+        Row: {
+          account_id: string
+          created_at: string
+          credit: number
+          debit: number
+          entry_id: string
+          id: string
+          owner_id: string
+        }
+        Insert: {
+          account_id: string
+          created_at?: string
+          credit?: number
+          debit?: number
+          entry_id: string
+          id?: string
+          owner_id: string
+        }
+        Update: {
+          account_id?: string
+          created_at?: string
+          credit?: number
+          debit?: number
+          entry_id?: string
+          id?: string
+          owner_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "journal_lines_account_id_fkey"
+            columns: ["account_id"]
+            isOneToOne: false
+            referencedRelation: "chart_of_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "journal_lines_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "journal_entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       parties: {
         Row: {
           billing_address: string | null
@@ -169,6 +508,65 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      payroll_runs: {
+        Row: {
+          created_at: string
+          days_present: number
+          employee_id: string
+          esic_deduction: number
+          gross_pay: number
+          id: string
+          net_pay: number
+          other_deductions: number
+          owner_id: string
+          period_month: number
+          period_year: number
+          pf_deduction: number
+          status: string
+          tds_deduction: number
+        }
+        Insert: {
+          created_at?: string
+          days_present?: number
+          employee_id: string
+          esic_deduction?: number
+          gross_pay?: number
+          id?: string
+          net_pay?: number
+          other_deductions?: number
+          owner_id: string
+          period_month: number
+          period_year: number
+          pf_deduction?: number
+          status?: string
+          tds_deduction?: number
+        }
+        Update: {
+          created_at?: string
+          days_present?: number
+          employee_id?: string
+          esic_deduction?: number
+          gross_pay?: number
+          id?: string
+          net_pay?: number
+          other_deductions?: number
+          owner_id?: string
+          period_month?: number
+          period_year?: number
+          pf_deduction?: number
+          status?: string
+          tds_deduction?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payroll_runs_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
