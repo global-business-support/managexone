@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
-import { Users, Clock, CheckCircle2, CreditCard, TrendingUp, ShieldCheck } from "lucide-react";
+import { Users, Clock, CheckCircle2, CreditCard, TrendingUp, ShieldCheck, Power, AlertTriangle } from "lucide-react";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
@@ -13,13 +13,15 @@ interface Stats {
   approved: number;
   pending: number;
   paidPending: number;
+  suspended: number;
   payments: number;
   revenue: number;
+  pendingPayments: number;
 }
 
 function AdminOverview() {
-  const [s, setS] = useState<Stats>({ total: 0, approved: 0, pending: 0, paidPending: 0, payments: 0, revenue: 0 });
-  const [recent, setRecent] = useState<Array<{ user_id: string; email: string; full_name: string | null; company_name: string | null; approved: boolean; payment_status: string; created_at: string }>>([]);
+  const [s, setS] = useState<Stats>({ total: 0, approved: 0, pending: 0, paidPending: 0, suspended: 0, payments: 0, revenue: 0, pendingPayments: 0 });
+  const [recent, setRecent] = useState<Array<{ user_id: string; email: string; full_name: string | null; company_name: string | null; approved: boolean; active: boolean; payment_status: string; created_at: string }>>([]);
 
   useEffect(() => {
     (async () => {
@@ -29,15 +31,18 @@ function AdminOverview() {
       ]);
       const list = profiles ?? [];
       const paid = (pays ?? []).filter((p: { status: string }) => p.status === "paid");
+      const pendingPays = (pays ?? []).filter((p: { status: string }) => p.status === "pending");
       setS({
         total: list.length,
         approved: list.filter((p) => p.approved).length,
         pending: list.filter((p) => !p.approved).length,
         paidPending: list.filter((p) => !p.approved && p.payment_status === "paid").length,
+        suspended: list.filter((p) => p.active === false).length,
         payments: paid.length,
         revenue: paid.reduce((a: number, b: { amount: number }) => a + Number(b.amount ?? 0), 0),
+        pendingPayments: pendingPays.length,
       });
-      setRecent(list.slice(0, 6));
+      setRecent(list.slice(0, 8));
     })();
   }, []);
 
@@ -55,11 +60,13 @@ function AdminOverview() {
         </div>
       </header>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard icon={<Users className="h-5 w-5" />} label="Total Customers" value={s.total} color="text-navy-deep" />
         <StatCard icon={<CheckCircle2 className="h-5 w-5" />} label="Approved Members" value={s.approved} color="text-emerald-700" />
         <StatCard icon={<Clock className="h-5 w-5" />} label="Pending Approval" value={s.pending} color="text-amber-700" />
-        <StatCard icon={<CreditCard className="h-5 w-5" />} label="Paid · Awaiting Admin" value={s.paidPending} color="text-rose-700" highlight />
+        <StatCard icon={<Power className="h-5 w-5" />} label="Suspended" value={s.suspended} color="text-rose-700" />
+        <StatCard icon={<AlertTriangle className="h-5 w-5" />} label="Paid · Awaiting Admin" value={s.paidPending} color="text-rose-700" highlight />
+        <StatCard icon={<CreditCard className="h-5 w-5" />} label="Pending Payments" value={s.pendingPayments} color="text-amber-700" />
         <StatCard icon={<CreditCard className="h-5 w-5" />} label="Successful Payments" value={s.payments} color="text-navy-deep" />
         <StatCard icon={<TrendingUp className="h-5 w-5" />} label="Total Revenue" value={inr(s.revenue)} color="text-emerald-700" />
       </div>
