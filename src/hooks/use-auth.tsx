@@ -12,6 +12,7 @@ export interface Profile {
   company_name: string | null;
   phone: string | null;
   approved: boolean;
+  active: boolean;
   trial_expires_at: string;
 }
 
@@ -23,6 +24,7 @@ interface AuthState {
   loading: boolean;
   isAdmin: boolean;
   isApproved: boolean;
+  isActive: boolean;
   trialExpired: boolean;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -82,6 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const user = session?.user ?? null;
   const isAdmin = role === "admin";
   const isApproved = !!profile?.approved || isAdmin;
+  const isActive = isAdmin || profile?.active !== false;
   const trialExpired =
     role === "trial" && !!profile && new Date(profile.trial_expires_at).getTime() < Date.now();
 
@@ -91,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ session, user, profile, role, loading, isAdmin, isApproved, trialExpired, refresh, signOut }}
+      value={{ session, user, profile, role, loading, isAdmin, isApproved, isActive, trialExpired, refresh, signOut }}
     >
       {children}
     </AuthContext.Provider>
