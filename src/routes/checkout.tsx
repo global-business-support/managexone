@@ -183,12 +183,27 @@ function CheckoutPage() {
                   <Copy className="mr-1 h-3.5 w-3.5" /> Copy
                 </Button>
               </div>
-              <a href={upiLink} className="mt-3 inline-block w-full">
+              <a
+                href={upiLink}
+                onClick={(e) => {
+                  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                  if (!isMobile) {
+                    e.preventDefault();
+                    toast.info("Desktop pe UPI app nahi khulta. Niche QR code phone se scan karein.");
+                  }
+                }}
+                className="mt-3 inline-block w-full"
+              >
                 <Button type="button" className="w-full bg-emerald-600 hover:bg-emerald-700">
                   Open UPI App & Pay {inr(total)}
                 </Button>
               </a>
-              <p className="mt-2 text-[11px] text-muted-foreground">On mobile, this opens your chosen UPI app with the amount pre-filled.</p>
+              <div className="mt-4 flex flex-col items-center gap-2 rounded-lg bg-white p-4">
+                <div className="text-xs font-semibold text-navy-deep">Ya phone se QR scan karein</div>
+                <QRCodeSVG value={upiLink} size={180} level="M" includeMargin />
+                <div className="text-[11px] text-muted-foreground">PhonePe / GPay / Paytm / BHIM — koi bhi UPI app</div>
+              </div>
+              <p className="mt-2 text-[11px] text-muted-foreground">Mobile pe button apne UPI app me amount pre-filled khol dega.</p>
             </div>
 
             <div className="space-y-3 rounded-xl border border-border bg-muted/40 p-4">
