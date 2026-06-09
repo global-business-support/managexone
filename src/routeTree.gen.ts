@@ -13,11 +13,15 @@ import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminLoginRouteImport } from './routes/admin-login'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as PricingHrisRouteImport } from './routes/pricing.hris'
+import { Route as PricingBillingRouteImport } from './routes/pricing.billing'
+import { Route as PricingAccountingRouteImport } from './routes/pricing.accounting'
 import { Route as DashboardReportsRouteImport } from './routes/dashboard.reports'
 import { Route as DashboardIndustriesRouteImport } from './routes/dashboard.industries'
 import { Route as DashboardHrisRouteImport } from './routes/dashboard.hris'
@@ -52,6 +56,11 @@ const CheckoutRoute = CheckoutRouteImport.update({
   path: '/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin-login',
   path: '/admin-login',
@@ -76,6 +85,21 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const PricingHrisRoute = PricingHrisRouteImport.update({
+  id: '/pricing/hris',
+  path: '/pricing/hris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingBillingRoute = PricingBillingRouteImport.update({
+  id: '/pricing/billing',
+  path: '/pricing/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingAccountingRoute = PricingAccountingRouteImport.update({
+  id: '/pricing/accounting',
+  path: '/pricing/accounting',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardReportsRoute = DashboardReportsRouteImport.update({
   id: '/reports',
@@ -147,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
+  '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
@@ -163,6 +188,9 @@ export interface FileRoutesByFullPath {
   '/dashboard/hris': typeof DashboardHrisRoute
   '/dashboard/industries': typeof DashboardIndustriesRoute
   '/dashboard/reports': typeof DashboardReportsRoute
+  '/pricing/accounting': typeof PricingAccountingRoute
+  '/pricing/billing': typeof PricingBillingRoute
+  '/pricing/hris': typeof PricingHrisRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/settings': typeof DashboardAdminSettingsRoute
@@ -170,6 +198,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin-login': typeof AdminLoginRoute
+  '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
@@ -185,6 +214,9 @@ export interface FileRoutesByTo {
   '/dashboard/hris': typeof DashboardHrisRoute
   '/dashboard/industries': typeof DashboardIndustriesRoute
   '/dashboard/reports': typeof DashboardReportsRoute
+  '/pricing/accounting': typeof PricingAccountingRoute
+  '/pricing/billing': typeof PricingBillingRoute
+  '/pricing/hris': typeof PricingHrisRoute
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/admin/settings': typeof DashboardAdminSettingsRoute
@@ -194,6 +226,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/admin-login': typeof AdminLoginRoute
+  '/blog': typeof BlogRoute
   '/checkout': typeof CheckoutRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof LoginRoute
@@ -210,6 +243,9 @@ export interface FileRoutesById {
   '/dashboard/hris': typeof DashboardHrisRoute
   '/dashboard/industries': typeof DashboardIndustriesRoute
   '/dashboard/reports': typeof DashboardReportsRoute
+  '/pricing/accounting': typeof PricingAccountingRoute
+  '/pricing/billing': typeof PricingBillingRoute
+  '/pricing/hris': typeof PricingHrisRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/admin/settings': typeof DashboardAdminSettingsRoute
@@ -220,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin-login'
+    | '/blog'
     | '/checkout'
     | '/dashboard'
     | '/login'
@@ -236,6 +273,9 @@ export interface FileRouteTypes {
     | '/dashboard/hris'
     | '/dashboard/industries'
     | '/dashboard/reports'
+    | '/pricing/accounting'
+    | '/pricing/billing'
+    | '/pricing/hris'
     | '/admin/'
     | '/dashboard/'
     | '/dashboard/admin/settings'
@@ -243,6 +283,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin-login'
+    | '/blog'
     | '/checkout'
     | '/login'
     | '/signup'
@@ -258,6 +299,9 @@ export interface FileRouteTypes {
     | '/dashboard/hris'
     | '/dashboard/industries'
     | '/dashboard/reports'
+    | '/pricing/accounting'
+    | '/pricing/billing'
+    | '/pricing/hris'
     | '/admin'
     | '/dashboard'
     | '/dashboard/admin/settings'
@@ -266,6 +310,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/admin-login'
+    | '/blog'
     | '/checkout'
     | '/dashboard'
     | '/login'
@@ -282,6 +327,9 @@ export interface FileRouteTypes {
     | '/dashboard/hris'
     | '/dashboard/industries'
     | '/dashboard/reports'
+    | '/pricing/accounting'
+    | '/pricing/billing'
+    | '/pricing/hris'
     | '/admin/'
     | '/dashboard/'
     | '/dashboard/admin/settings'
@@ -291,10 +339,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
+  BlogRoute: typeof BlogRoute
   CheckoutRoute: typeof CheckoutRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  PricingAccountingRoute: typeof PricingAccountingRoute
+  PricingBillingRoute: typeof PricingBillingRoute
+  PricingHrisRoute: typeof PricingHrisRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -325,6 +377,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin-login': {
@@ -361,6 +420,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/pricing/hris': {
+      id: '/pricing/hris'
+      path: '/pricing/hris'
+      fullPath: '/pricing/hris'
+      preLoaderRoute: typeof PricingHrisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing/billing': {
+      id: '/pricing/billing'
+      path: '/pricing/billing'
+      fullPath: '/pricing/billing'
+      preLoaderRoute: typeof PricingBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing/accounting': {
+      id: '/pricing/accounting'
+      path: '/pricing/accounting'
+      fullPath: '/pricing/accounting'
+      preLoaderRoute: typeof PricingAccountingRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/dashboard/reports': {
       id: '/dashboard/reports'
@@ -518,10 +598,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
+  BlogRoute: BlogRoute,
   CheckoutRoute: CheckoutRoute,
   DashboardRoute: DashboardRouteWithChildren,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  PricingAccountingRoute: PricingAccountingRoute,
+  PricingBillingRoute: PricingBillingRoute,
+  PricingHrisRoute: PricingHrisRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
