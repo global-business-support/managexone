@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Receipt, Calculator, Users, ArrowRight, Download } from "lucide-react";
 
 type Billing = "monthly" | "yearly";
 
@@ -127,6 +127,60 @@ export function Pricing() {
             </div>
           );
         })}
+      </div>
+
+      {/* Per-module pricing */}
+      <div className="mt-24">
+        <div className="mx-auto max-w-2xl text-center">
+          <div className="text-xs uppercase tracking-widest text-accent">Pick what you need</div>
+          <h3 className="mt-3 font-display text-3xl font-bold md:text-4xl">Buy individual modules</h3>
+          <p className="mt-3 text-muted-foreground">Don't need the full suite? Get just Billing, Accounting or HRIS at a lower price.</p>
+        </div>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {[
+            { to: "/pricing/billing", icon: Receipt, name: "GST Billing", from: 799, desc: "GST invoices, e-Invoice, e-Way Bill, UPI collections.", color: "from-blue-500 to-indigo-600" },
+            { to: "/pricing/accounting", icon: Calculator, name: "Accounting", from: 999, desc: "Double-entry accounting, P&L, BS, bank reconciliation.", color: "from-slate-700 to-blue-700" },
+            { to: "/pricing/hris", icon: Users, name: "HRIS & Payroll", from: 1499, desc: "Attendance, payroll, PF/ESIC/TDS, payslips, ESS portal.", color: "from-indigo-600 to-blue-500" },
+          ].map((m) => (
+            <Link
+              key={m.to}
+              to={m.to}
+              className="group flex flex-col overflow-hidden rounded-2xl border bg-card transition-all hover:-translate-y-1 hover:border-accent/50 hover:shadow-elegant"
+            >
+              <div className={`flex items-center justify-between bg-gradient-to-br ${m.color} p-6 text-white`}>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur">
+                  <m.icon className="h-6 w-6" />
+                </div>
+                <div className="text-right">
+                  <div className="text-[10px] uppercase tracking-wider text-white/70">Starting at</div>
+                  <div className="font-display text-2xl font-bold">₹ {m.from.toLocaleString("en-IN")}<span className="text-sm font-normal text-white/70">/mo</span></div>
+                </div>
+              </div>
+              <div className="flex flex-1 flex-col p-6">
+                <div className="font-display text-xl font-bold text-navy-deep">{m.name}</div>
+                <p className="mt-2 flex-1 text-sm text-muted-foreground">{m.desc}</p>
+                <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent group-hover:gap-2.5 transition-all">
+                  View plans <ArrowRight className="h-4 w-4" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl bg-gradient-hero p-8 text-white md:flex-row">
+          <div>
+            <div className="font-display text-2xl font-bold">Complete Services Brochure</div>
+            <p className="mt-1 text-white/80">Every module, every feature, every plan — in one PDF.</p>
+          </div>
+          <a
+            href="/ManageXOne-Services.pdf"
+            download
+            className="inline-flex items-center gap-2 rounded-md bg-gradient-gold px-6 py-3 text-sm font-semibold text-gold-foreground shadow-gold hover:opacity-90"
+          >
+            <Download className="h-4 w-4" /> Download PDF
+          </a>
+        </div>
       </div>
     </section>
   );
