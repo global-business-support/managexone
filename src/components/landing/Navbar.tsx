@@ -32,12 +32,12 @@ export function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <BrandLogo />
 
-        <nav className="hidden items-center gap-8 md:flex">
-          <a href="#features" className="text-sm font-medium text-foreground/80 hover:text-foreground">Features</a>
-          <a href="#modules" className="text-sm font-medium text-foreground/80 hover:text-foreground">Modules</a>
-          <a href="#industries" className="text-sm font-medium text-foreground/80 hover:text-foreground">Industries</a>
-          <a href="#pricing" className="text-sm font-medium text-foreground/80 hover:text-foreground">Pricing</a>
-          <a href="#contact" className="text-sm font-medium text-foreground/80 hover:text-foreground">Contact</a>
+        <nav className="hidden items-center gap-7 md:flex">
+          <a href="/#modules" className="text-sm font-medium text-foreground/80 hover:text-foreground">Modules</a>
+          <a href="/#industries" className="text-sm font-medium text-foreground/80 hover:text-foreground">Industries</a>
+          <a href="/#pricing" className="text-sm font-medium text-foreground/80 hover:text-foreground">Pricing</a>
+          <Link to="/blog" className="text-sm font-medium text-foreground/80 hover:text-foreground">Blog</Link>
+          <a href="/ManageXOne-Services.pdf" download className="text-sm font-medium text-accent hover:underline">Brochure</a>
         </nav>
         <div className="flex items-center gap-2">
           <Button asChild variant="ghost" size="sm">
